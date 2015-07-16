@@ -2,14 +2,28 @@
 var SongQueue = Songs.extend({
 
   initialize: function(){
+    this.on('add', function(){
+      if (this.length === 1) {
+        this.playFirst()
+        
+      }
+    },this);
+
+    this.on('ended', function(){
+      this.remove(this.at(0));
+      if(this.length > 0){
+        this.playFirst();
+      }
+    },this);
+
+    this.on('dequeue', function(){
+      this.remove(this.at(0));
+    },this);
 
   },
   playFirst: function (){
     this.at(0).play();
-    // this.at(0).on('ended',function(){
-    //   this.models.shift();
-    //   this.trigger('playFirst', this);
-    // },this);
+    // 
   }
   // add: function(song){
   //   var newSong = new SongModel(song);
